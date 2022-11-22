@@ -158,7 +158,6 @@ $SIG{INT} = \&catch_zap;
 &get_options();
 
 # 
-# my $MYSQL    = qq{mysql -s --skip-column-names -uroot -P$port -pZ5Pa2Cby_n5UtqWb -h127.0.0.1 };
 my $MYSQL    = qq{mysql --login-path=$path -s --skip-column-names };
 $MYSQL      .= qq{-S$socket } if defined $socket;
 my $TCPRSTAT = "/usr/bin/tcprstat --no-header -t 1 -n 0 -p $port";
