@@ -52,6 +52,7 @@ my $logfile ;          # -L   : logfile
 my $logfile_by_day ;   # -logfile_by_day : one day a logfile
 my $net;               # -n   : print net info
 my $port = 3306;       # -P
+my $path = "root";     # -p
 my $socket     ;       # -S
 my $dbrt = 0;          # -rt
 my $tcprstat_dir = "/tmp";
@@ -157,7 +158,8 @@ $SIG{INT} = \&catch_zap;
 &get_options();
 
 # 
-my $MYSQL    = qq{mysql -s --skip-column-names -uroot -P$port };
+# my $MYSQL    = qq{mysql -s --skip-column-names -uroot -P$port -pZ5Pa2Cby_n5UtqWb -h127.0.0.1 };
+my $MYSQL    = qq{mysql --login-path=$path -s --skip-column-names };
 $MYSQL      .= qq{-S$socket } if defined $socket;
 my $TCPRSTAT = "/usr/bin/tcprstat --no-header -t 1 -n 0 -p $port";
 
@@ -250,6 +252,7 @@ Command line options :
    -n,--net            Print Net  Info.
 
    -P,--port           Port number to use for mysql connection(default 3306).
+   -p,--path           login path to use for mysql connection(default root).
    -S,--socket         Socket file to use for mysql connection.
 
    -com                Print MySQL Status(Com_select,Com_insert,Com_update,Com_delete).
@@ -309,6 +312,7 @@ sub get_options{
                         'hit',              # OUT : Print Innodb Hit%
                         'mysql',            # OUT : Print mysql info
                         'P|port=i',         # IN  : port 
+			'p|path=s',         # IN  : login-path
                         'S|socket=s',       # IN  : socket 
                         'C|count=i',        # IN  : times 
                         'L|logfile=s',      # IN  : path of logfile
@@ -1140,7 +1144,4 @@ sub get_innodb_status {
 
         return %innodb_status;
 }
-
-
-
 
